@@ -1,7 +1,20 @@
+const logger = require('./logger')
 const Joi = require('joi')
 const express = require('express')
 const app = express()
+
+// middleware build in
 app.use(express.json())
+app.use(express.urlencoded({extended: true})) //to parse the key value from the payload
+app.use(express.static('public')) // to serve static file in public folder 
+
+// custom middlewares
+app.use(logger);
+
+app.use(function (req, res, next){
+    console.log("authenticating...")
+    next()
+});
 
 const courses = [
     {id: 1, name: "course1"},
