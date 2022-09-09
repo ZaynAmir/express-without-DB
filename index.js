@@ -1,12 +1,35 @@
+const config = require('config')
 const logger = require('./logger')
+const helmet = require('helmet')
+const morgan = require('morgan')
 const Joi = require('joi')
 const express = require('express')
 const app = express()
+
+
+// configrations
+console.log(`active env name : ${config.get('name')}`)
+console.log(`database host : ${config.get('databaseConfig.host')}`)
+console.log(`database password : ${config.get('databaseConfig.password')}`)
+
+// envs
+// console.log(`NODE_ENV : ${process.env.NODE_ENV}`)
+// console.log(`APP_ENV : ${app.get('env')}`)
+
 
 // middleware build in
 app.use(express.json())
 app.use(express.urlencoded({extended: true})) //to parse the key value from the payload
 app.use(express.static('public')) // to serve static file in public folder 
+
+// third party middlewares
+app.use(helmet());
+
+if (app.get('env') === 'development'){
+    app.use(morgan('tiny')) //gettings logs in terminal
+    console.log("Morgan Logs enabled ...")
+}
+
 
 // custom middlewares
 app.use(logger);
@@ -15,6 +38,8 @@ app.use(function (req, res, next){
     console.log("authenticating...")
     next()
 });
+
+
 
 const courses = [
     {id: 1, name: "course1"},

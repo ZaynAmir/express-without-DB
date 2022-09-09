@@ -1,0 +1,7 @@
+{
+    "name" : "express app - production",
+    "databaseConfig": {
+        "host": "db-prod-customers-collection"
+    }
+
+}

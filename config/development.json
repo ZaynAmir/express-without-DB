@@ -1,0 +1,7 @@
+{
+    "name" : "express app - development",
+    "databaseConfig": {
+        "host": "dev-db-server-customers"
+    }
+
+}
